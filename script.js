@@ -400,7 +400,7 @@ class Game {
 
 }
 
-let juego = new Game(12, 18, 30);
+let juego = new Game(15, 20, 30);
 
 document.getElementById("start").addEventListener("click", () => {
 
