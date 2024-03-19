@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="score">
+            <h2>Score</h2>
+            <p id="puntuacion">0</p>
+            <div class="record">
+                <p id="record-punts">?</p>
+                <div class="icon-record">
+                    
+                    <i class="fa fa-trophy"></i>
+                </div>
+            </div>
+        </div>
+        <div class="canvas">
+            <canvas></canvas>
+        </div>
+        <div class="modal-game" id="modal-game">
+            <div class="modal-game-dentro">
+                <div class="">
+
+                    <h2>Paused</h2>
+                    <div class="accions">
+                        <div class="border-bottom">
+                            <button id="start">Start</button>
+                        </div>
+                        <div class="border-bottom">
+                            <button id="resume">Resume</button>
+                        </div>
+                        <div class="border-bottom">
+                            <button id="options">Options</button>
+                        </div>
+                        <div class="border-bottom">
+                            <button id="quit">Quit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <button class="pausar" id="pausar"><i class="fa fa-pause"></i></button>
+        </div>
+        <div class="modal-score" id="modal-score">
+            <header class="tu_puntuacion">
+                <h2>Puntuación</h2>
+                <p id="ver_puntuacion">0</p>
+            </header>
+            <section>
+                <input type="text" id="name" name="name" placeholder="Escribe tu nombre a guardar" />
+            </section>
+            <footer>
+                <button id="registrar_save" >Registrar</button>
+            </footer>
+        </div>
+    </div>
+
+    <div class="game">
+        <p>Hola</p>
+    </div>
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
