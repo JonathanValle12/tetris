@@ -29,6 +29,7 @@ body {
     background: linear-gradient(#333333, #b5b5b5);
     height: 150px;
     position: relative;
+    top: 10px;
 }
 
 .score h2 {
