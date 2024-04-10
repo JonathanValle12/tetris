@@ -29,17 +29,20 @@ export default class Game {
 
         this.audio = new Audio("../song/song.mp3");
 
+        this.eventsAdded = false;
     }
 
     comenzarJuego() {
 
-        if(!this.gameOver && !this.paused) {
+        if(!this.gameOver && !this.paused && !this.eventsAdded) {
             document.addEventListener('keydown', this.pieces.movePiece.bind(this.pieces));
 
             this.upKeyPress = false;
 
             document.addEventListener('keydown', this.keyPressDown.bind(this));
             document.addEventListener('keyup', this.keyPressUp.bind(this));
+
+            this.eventsAdded = true;
         }
     }
 
@@ -106,6 +109,7 @@ document.getElementById("start").addEventListener("click", () => {
     juego.modal.resume();
 
     juego.timeoutMoveDown();
+
     document.getElementById("pausar").removeAttribute("disabled");
 
     juego.audio.play();

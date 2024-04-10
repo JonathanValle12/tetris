@@ -28,6 +28,7 @@ class Modal {
         // Ocultar el modal cuando se pausa el juego
         let modal_game = document.getElementById("modal-game");
         modal_game.style.display = '';
+
     }
 
     resume() {
