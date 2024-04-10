@@ -16,6 +16,9 @@ class Modal {
         let ver_puntuacion = document.getElementById('ver_puntuacion');
 
         ver_puntuacion.innerHTML = `${this.game.puntos} puntos`;
+
+        this.game.audio.pause();
+
     }
 
     pause() {
@@ -24,10 +27,11 @@ class Modal {
 
         // Ocultar el modal cuando se pausa el juego
         let modal_game = document.getElementById("modal-game");
-        modal_game.style.display = 'block'; // Cambia 'block' por 'none' para ocultarlo
+        modal_game.style.display = '';
     }
 
     resume() {
+        
         if (this.game.paused) {
             this.game.paused = false;
             this.game.timer = false;
@@ -36,7 +40,7 @@ class Modal {
         
             // Ocultar el modal al reanudar el juego
             let modal_game = document.getElementById("modal-game");
-            modal_game.style.display = 'none'; 
+            modal_game.style.display = 'none';
             
             this.game.comenzarJuego();
     }
@@ -46,7 +50,7 @@ class Modal {
 
         let button = document.getElementById('registrar_save');
         if (name.length >= 3) {
-            console.log(name);
+            
             button.classList.add('button_save');
 
             button.addEventListener('click', () => {

@@ -26,6 +26,9 @@ export default class Game {
 
         this.board.draw();
         this.pieces.drawPiece();
+
+        this.audio = new Audio("../song/song.mp3");
+
     }
 
     comenzarJuego() {
@@ -51,53 +54,49 @@ export default class Game {
     timeoutMoveDown() {
         if (!this.timer) {
             this.timer = setTimeout(() => {
-            
                 if (!this.paused && !this.gameOver) {
                     let x = this.pieces.positionPiece.x;
-                let y = this.pieces.positionPiece.y + 1;
-    
-                if (!this.pieces.collision(x, y)) {
-                    this.pieces.positionPiece.x = x;
-                    this.pieces.positionPiece.y = y;
-    
-                    this.puntos++;
-    
-                    let score = document.getElementById('puntuacion');
-    
-                    score.innerHTML = this.puntos;
-
-                    this.board.draw();
-                    this.pieces.drawPiece();
-                    this.timeoutMoveDown();
-                } else{
-                    this.pieces.soltarPiece(x, y - 1);
-                    
-                    if (this.pieces.positionPiece.y === 0) {
-                        this.gameOver = true;
-                        console.log(JSON.parse(localStorage.getItem('puntuacion'))?.puntos);
-                        if (!JSON.parse(localStorage.getItem('puntuacion')) ||this.puntos >= JSON.parse(localStorage.getItem('puntuacion'))?.puntos) {
-                            this.modal.openModalScore();
-                        }
-                        this.board.inicialitzeBoard();
-                        
-                        this.board.draw();
-                        this.pieces.drawPiece()
-                        this.pieces.positionPiece.x = 5;
-                        this.pieces.positionPiece.y = 0;
-                    } else {
-                        this.pieces.positionPiece.x = Math.floor(Math.random() * this.width / 2);
-                        this.pieces.positionPiece.y = 0;                    
+                    let y = this.pieces.positionPiece.y + 1;
+                    if (!this.pieces.collision(x, y)) {
+                        this.pieces.positionPiece.x = x;
+                        this.pieces.positionPiece.y = y;
+                        this.puntos++;
+                        let score = document.getElementById('puntuacion');
+                        score.innerHTML = this.puntos;
                         this.board.draw();
                         this.pieces.drawPiece();
                         this.timeoutMoveDown();
+                    } else {
+                        this.pieces.soltarPiece(x, y - 1);
+                        if (this.pieces.positionPiece.y === 0) {
+                            if (!JSON.parse(localStorage.getItem('puntuacion')) || this.puntos >= JSON.parse(localStorage.getItem('puntuacion'))?.puntos) {
+                                
+                                this.gameOver = true;
+                                this.modal.openModalScore();
+                            } else {
+                                
+                            window.location.reload();
+                            }
+                            this.board.inicialitzeBoard();
+                            this.board.draw();
+                            this.pieces.drawPiece();
+                            this.pieces.positionPiece.x = 5;
+                            this.pieces.positionPiece.y = 0;
+                        } else {
+                            this.gameOver = true;
+                            this.modal.openModalScore();
+                        }
                     }
-                }
-                this.timer = false;
-                this.timeoutMoveDown();
+                    this.timer = false;
+                    // Verificar si el juego está aún en curso antes de llamar a timeoutMoveDown()
+                    if (!this.gameOver) {
+                        this.timeoutMoveDown();
+                    }
                 }
             }, 1500);
         }
     }
+    
 }
 
 let juego = new Game(15, 18, 30);
@@ -109,10 +108,14 @@ document.getElementById("start").addEventListener("click", () => {
     juego.timeoutMoveDown();
     document.getElementById("pausar").removeAttribute("disabled");
 
+    juego.audio.play();
+
 });
 
 document.getElementById("pausar").addEventListener("click", () => {
     juego.modal.pause();
+
+    juego.audio.pause();
 })
 // Agregar evento input al campo de entrada 'name'
 document.getElementById('name').addEventListener('input', () => {

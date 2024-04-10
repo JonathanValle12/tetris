@@ -110,7 +110,6 @@ class Pieces {
                         newY++;
                     }
                     if (newY !== pieceY) {
-                        console.log(pieceY);
                         this.soltarPiece(pieceX, newY);
                         pieceX = Math.floor(Math.random() * this.game.width / 2);
                         pieceY = 0;
@@ -123,8 +122,6 @@ class Pieces {
                     }
 
                     if (newY === 0) {
-                        console.log(JSON.parse(localStorage.getItem('puntuacion'))?.puntos);
-
                         if (!JSON.parse(localStorage.getItem('puntuacion')) || this.game.puntos >= JSON.parse(localStorage.getItem('puntuacion'))?.puntos) {
                             this.gameOver = true;
                             this.modal.openModalScore();
