@@ -1,27 +1,31 @@
+/* Estilos generales de reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Estilos del cuerpo del documento */
 body {
     width: 100%;
     height: 100vh;
-    background: url("../img/fondo_tetris.jpg") no-repeat;
+    background: url("../img/fondo_tetris.webp") no-repeat;
     background-size: cover;
     background-position: center center;
-
+    
     display: grid;
     place-items: center;
     color: #fff;
 }
 
+/* Contenedor principal */
 .container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     grid-auto-flow: row;
 }
 
+/* Sección de puntuación */
 .score {
     width: 90%;
     border: 5px solid rgb(184, 175, 175);
@@ -31,7 +35,6 @@ body {
     position: relative;
     top: 10px;
 }
-
 .score h2 {
     width: 100%;
     padding: 5px 35px;
@@ -75,6 +78,8 @@ body {
 .pausar i {
     font-size: 35px;
 }
+
+/* Modal de pausa */
 .modal-game {
     background-color: rgba(0, 0, 0, 0.8);
     position: fixed;
@@ -87,7 +92,6 @@ body {
     align-items: center;
     z-index: 999;
 }
-
 .modal-game-dentro {
     background-color: #fff;
     border-radius: 10px;
@@ -96,7 +100,6 @@ body {
     width: 100%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
-
 .modal-game h2 {
     font-size: 24px;
     text-transform: uppercase;
@@ -105,12 +108,10 @@ body {
     color: #333;
     margin-bottom: 20px;
 }
-
 .modal-game .actions {
     display: flex;
     justify-content: center;
 }
-
 .modal-game .actions button {
     padding: 10px 20px;
     margin: 0 10px;
@@ -122,10 +123,11 @@ body {
     font-size: 16px;
     transition: background-color 0.3s;
 }
-
 .modal-game .actions button:hover {
     background-color: #0056b3;
 }
+
+/* Modal de puntuación */
 .modal-score {
     width: 33%;
     position: absolute;
@@ -137,7 +139,6 @@ body {
     left: 50px;
     display: none;
 }
-
 .modal-score .tu_puntuacion {
     display: flex;
     align-items: center;
@@ -176,6 +177,7 @@ body {
     transform: scale(1.15);
 }
 
+/* Estilos responsivos */
 @media screen and (max-width: 1200px) {
     .container {
         display: flex;
@@ -183,7 +185,6 @@ body {
         gap: 20px;
     }
 }
-
 @media screen and (max-width: 800px) {
     .container {
         display: flex;

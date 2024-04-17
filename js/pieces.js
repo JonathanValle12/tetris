@@ -2,14 +2,15 @@
 class Pieces {
     constructor(game, board, modal) {
 
-        this.game = game;
-        this.board = board;
-        this.modal = modal;
+        this.game = game; // Referencia al juego
+        this.board = board; // Referencia al tablero
+        this.modal = modal; // Referencia al modal
         
-        this.positionPiece = { x: 6, y: 0 };
-        this.currentPieces = this.getRandomPieces();
+        this.positionPiece = { x: 6, y: 0 }; // Posición inicial de la pieza
+        this.currentPieces = this.getRandomPieces(); // Pieza actual
     }
 
+    // Obtiene una pieza aleatoria del conjunto predefinido
     getRandomPieces() {
         const pieces = [
             { type: 'red', piece: [[1, 1], [1, 1]] },
@@ -25,6 +26,7 @@ class Pieces {
         return randomPiece;
     }
 
+    // Dibuja la pieza actual en el tablero
     drawPiece() {
         let convert = Math.min(this.board.canvas.width / this.game.width, this.board.canvas.height / this.game.height);
 
@@ -44,9 +46,10 @@ class Pieces {
             })
         })
 
-        this.drawShadow();
+        this.drawShadow(); // Dibuja la sombra de la pieza
     }
 
+    // Maneja el movimiento de la pieza según las teclas presionadas
     movePiece(event) {
         if (!this.game.gameOver) {
             let pieceX = this.positionPiece.x;
@@ -54,19 +57,21 @@ class Pieces {
 
             switch (event.code) {
                 case "ArrowLeft":
+                    // Mueve la pieza hacia la izquierda si no hay colisión
                     pieceX--
                     if (this.collision(pieceX, pieceY)) {
                         pieceX++
                     }
                     break;
                 case "ArrowRight":
+                    // Mueve la pieza hacia la derecha si no hay colision
                     pieceX++
                     if (this.collision(pieceX, pieceY)) {
                         pieceX--
                     }
                     break;
                 case "ArrowUp":
-
+                    // Rota la pieza si no hay colisión
                     if (!this.game.upKeyPress) {
                         let rotatePiece = this.currentPieces.piece[0].map((_, i) => this.currentPieces.piece.map(row => row[i]).reverse());
                         this.game.upKeyPress = false;
@@ -81,17 +86,19 @@ class Pieces {
                     }
                     break
                 case "ArrowDown":
+                    // Mueve la pieza hacia abajo si no hay colisión
                     pieceY++
                     if (this.collision(pieceX, pieceY)) {
                         pieceY--
                     }
-                    this.game.puntos++;
+                    this.game.puntos++; // Incrementa los puntos del juego
 
                     let score = document.getElementById('puntuacion');
 
-                    score.innerHTML = this.game.puntos;
+                    score.innerHTML = this.game.puntos; // Actualiza la puntuación en el marcador
 
                     if (event.key == 'ArrowDown' && this.collision(pieceX, pieceY + 1)) {
+                        // Suelta la pieza si llega al fondo del tablero
                         this.soltarPiece(pieceX, pieceY);
                         pieceX = Math.floor(Math.random() * this.game.width / 2);
                         pieceY = 0;
@@ -105,6 +112,7 @@ class Pieces {
 
                     break;
                 case 'Space':
+                    // Suelta la pieza hasta el fondo del tablero
                     let newY = pieceY;
                     while (!this.collision(pieceX, newY + 1)) {
                         newY++;
@@ -122,6 +130,7 @@ class Pieces {
                     }
 
                     if (newY === 0) {
+                        // Finaliza el juego si la pieza alcanza la parte superior del tablero
                         if (!JSON.parse(localStorage.getItem('puntuacion')) || this.game.puntos >= JSON.parse(localStorage.getItem('puntuacion'))?.puntos) {
                             this.gameOver = true;
                             this.modal.openModalScore();
@@ -135,11 +144,12 @@ class Pieces {
             this.positionPiece.x = pieceX;
             this.positionPiece.y = pieceY;
 
-            this.board.draw();
-            this.drawPiece();
+            this.board.draw(); // Redibuja el tablero
+            this.drawPiece(); // Dibuja la pieza actual
         }
     }
 
+    // Suelta la pieza en la posición especifica
     soltarPiece(x, y) {
 
         this.currentPieces.piece.forEach((row, yIndex) => {
@@ -154,26 +164,29 @@ class Pieces {
                 }
             })
         })
-        this.board.limpiarFila();
-        this.currentPieces = this.getRandomPieces();
+        this.board.limpiarFila(); // Limpia las filas completas del tablero
+        this.currentPieces = this.getRandomPieces(); // Obtiene una nueva pieza aleatoria
     }
 
+    // Dibuja la sombra de la pieza
     drawShadow() {
         let cellSize = Math.min(this.board.canvas.width / this.game.width, this.board.canvas.height / this.game.height);
         let shadowX = this.positionPiece.x;
         let shadowY = this.positionPiece.y;
 
+        // Busca la posición Y de la sombra
         while (!this.collision(shadowX, shadowY + 1)) {
             shadowY++;
         }
 
-        this.board.context.fillStyle = 'rgba(0, 0, 0, .5)';
+        // Dibuja la sombra de la pieza en el tablero
+        this.board.context.fillStyle = 'rgba(0, 0, 0, .5)'; // Establece el color de la sombra
 
         this.currentPieces.piece.forEach((row, y) => {
             row.forEach((value, x) => {
                 if (value == 1) {
-                    let shadowPosX = (shadowX + x) * cellSize;
-                    let shadowPosY = (shadowY + y) * cellSize;
+                    let shadowPosX = (shadowX + x) * cellSize; // Posición X de la celda
+                    let shadowPosY = (shadowY + y) * cellSize; // Posición Y de la celda
 
                     this.board.context.fillRect(shadowPosX, shadowPosY, cellSize, cellSize);
                 }
@@ -181,6 +194,7 @@ class Pieces {
         })
     }
 
+    // Verifica si hay colisión entre la pieza y el tablero en la posición especifica
     collision(x, y) {
 
         return this.currentPieces.piece.some((row, rowIndex) => {
@@ -190,6 +204,7 @@ class Pieces {
                     const boardX = x + colIndex;
                     const boardY = y + rowIndex;
 
+                    // Verifica si la posición está fuera del tablero o si no hay colisión con una pieza existente en el tablero
                     if (boardX < 0 || boardX >= this.game.width || boardY >= this.game.height) {
                         return true;
                     }

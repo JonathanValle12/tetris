@@ -2,6 +2,7 @@
 <html lang="es">
 
 <head>
+    <!-- Metadatos y titulo -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tetris</title>
@@ -10,8 +11,10 @@
 </head>
 
 <body>
-
+    <!-- Contenido principal -->
     <main class="container">
+
+        <!-- Sección de puntuación -->
         <section class="score">
             <div class="container-score">
                 <h2>Score</h2>
@@ -25,9 +28,13 @@
                 </div>
             </div>
         </section>
+
+        <!-- Lienzo para el juego -->
         <section class="canvas">
             <canvas></canvas>
         </section>
+
+        <!-- Modal de pausa -->
         <section class="modal-game" id="modal-game">
             <div class="modal-game-dentro">
                 <h2>Paused</h2>
@@ -37,9 +44,12 @@
             </div>
         </section>
 
+        <!-- Botón de pausa -->
         <section>
             <button class="pausar" id="pausar"><i class="fa fa-pause"></i></button>
         </section>
+
+        <!-- Modal de puntuación -->
         <section class="modal-score" id="modal-score">
             <header class="tu_puntuacion">
                 <h2>Puntuación</h2>
@@ -51,7 +61,7 @@
             <footer>
                 <button id="registrar_save">Registrar</button>
             </footer>
-            </section>
+        </section>
     </main>
 
     <script type="module" src="js/game.js"></script>
