@@ -80,9 +80,11 @@ class Modal {
             })
         } else {
             button.classList.remove('button_save'); // Remueve la clase para deshabilitar el botón de guardar
+            
         }
 
     }
+
 }
 
 export default Modal;
