@@ -118,7 +118,7 @@ export default class Game {
 }
 
 // Instanciar nuevo juego con las dimensiones y tamaño
-let juego = new Game(15, 18, 30);
+let juego = new Game(10, 20, 30);
 
 // Evento click para inciar el juego
 document.getElementById("start").addEventListener("click", () => {

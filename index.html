@@ -11,6 +11,58 @@
 </head>
 
 <body>
+
+    <header>
+        <h1>Tetris</h1>
+    </header>
+
+    <div class="contenedor">
+        <main>
+
+            <!-- Controles -->
+            <section class="controles">
+                <h2>Controles</h2>
+                <div class="teclas-direccion">
+                    <div class="fila-01">
+                        <kbd aria-label="Flecha arriba">↑</kbd>
+                    </div>
+                    <div class="fila-02">
+                        <kbd aria-label="Flecha izquierda">←</kbd>
+                        <kbd aria-label="Flecha abajo">↓</kbd>
+                        <kbd aria-label="Flecha derecha">→</kbd>
+                    </div>
+                </div>
+
+                <div class="tecla-accion">
+                    <kbd aria-label="Tecla espacio">Espacio</kbd>
+                </div>
+
+                <p>Presiona <kbd>P</kbd> para pausar el juego.</p>
+            </section>
+
+            <!-- Juego -->
+            <section class="canvas">
+                <canvas></canvas>
+            </section>
+
+            <!-- Estadistica -->
+            <section class="game-info-panel">
+                <div class="pieza-siguiente">
+                    <h2>Siguiente Pieza</h2>
+                    <div class="contenedor-pieza" id="contenedorPieza"></div>
+                </div>
+                <div class="puntuacion">
+                    <h2>Puntuacion</h2>
+                    <span>0</span>
+                </div>
+
+                <div class="botones">
+                    <button>Comenzar Juego</button>
+                    <button>Reintentar</button>
+                </div>
+            </section>
+        </main>
+    </div>
     <!-- Contenido principal -->
     <main class="container">
 
@@ -65,6 +117,23 @@
     </main>
 
     <script type="module" src="js/game.js"></script>
+
+    <script>
+        const grid = [
+            [0, 0, 0, 0],
+            [0, 1, 1, 0],
+            [0, 1, 1, 0],
+            [0, 0, 0, 0],
+        ];
+
+        const contenedor = document.getElementById("contenedorPieza");
+
+        grid.flat().forEach(value => {
+            const div = document.createElement("div");
+            div.className = "cell" + (value ? " active" : "");
+            contenedor.appendChild(div);
+        });
+    </script>
 </body>
 
 </html>
