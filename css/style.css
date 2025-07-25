@@ -17,7 +17,7 @@ h1 {
 
 .contenedor {
     width: 100%;
-    max-width: 1000px;
+    max-width: 1080px;
     ;
     margin: 20px auto;
 
@@ -134,35 +134,96 @@ h1 {
             .puntuacion {
                 margin-top: 35px;
 
-                span {
+                .puntos-actual {
                     display: inline-block;
                     width: 100%;
                     padding: 15px 0;
                     background-color: #030712;
                     margin-top: 15px;
                 }
+
+                p {
+                    margin-top: 25px;
+                    color: #d1d5db;
+
+                    span {
+                        font-size: 20px;
+                        color: #fff;
+                    }
+                }
             }
 
-            .botones {
+            button {
+                display: none;
+                width: 100%;
+                color: #fff;
+                background-color: #374151;
+                padding: 15px 0;
+                border: none;
+                border-radius: 5px;
+                font-size: 1rem;
+                cursor: pointer;
+                margin-top: 150px;
+
+                &:hover {
+                    background-color: #4c5563;
+                }
+
+                &:nth-of-type(2) {
+                    opacity: 0.5;
+                    cursor: auto;
+                }
+            }
+        }
+
+        .canvas {
+            position: relative;
+
+            canvas {
+                border: 1px solid #374151;
+            }
+
+            .contenedor-menu {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+
+                background-color: #111827;
+                width: 100%;
+                height: 100%;
                 display: flex;
                 flex-direction: column;
-                justify-content: end;
-                height: 42%;
-                gap: 15px;
+                justify-content: center;
+                align-items: center;
+
+                line-height: 40px;
+
+                opacity: 0.95;
+
+                h2 {
+                    width: 100%;
+                    font-size: 35px;
+                    text-transform: uppercase;
+                }
 
                 button {
-                    color: #fff;
                     background-color: #374151;
-                    padding: 15px 0;
+                    color: #fff;
                     border: none;
+                    width: 60%;
+                    height: 50px;
                     border-radius: 5px;
-                    font-size: 1rem;
+                    font-weight: bold;
+                    font-size: 16px;
                     cursor: pointer;
+                    margin-top: 15px;
 
                     &:hover {
                         background-color: #4c5563;
                     }
                 }
+
             }
         }
     }

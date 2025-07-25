@@ -5,7 +5,7 @@ class Pieces {
         this.game = game; // Referencia al juego
         this.board = board; // Referencia al tablero
         this.modal = modal; // Referencia al modal
-        
+
         this.positionPiece = { x: 6, y: 0 }; // Posición inicial de la pieza
         this.currentPieces = this.getRandomPieces(); // Pieza actual
     }
@@ -102,12 +102,6 @@ class Pieces {
                         this.soltarPiece(pieceX, pieceY);
                         pieceX = Math.floor(Math.random() * this.game.width / 2);
                         pieceY = 0;
-
-                        if (this.collision(pieceX, pieceY)) {
-                            if (JSON.parse(localStorage.getItem('puntuacion'))) {
-                                this.modal.openModalScore();
-                            }
-                        }
                     }
 
                     break;
@@ -130,13 +124,11 @@ class Pieces {
                     }
 
                     if (newY === 0) {
-                        // Finaliza el juego si la pieza alcanza la parte superior del tablero
-                        if (!JSON.parse(localStorage.getItem('puntuacion')) || this.game.puntos >= JSON.parse(localStorage.getItem('puntuacion'))?.puntos) {
-                            this.gameOver = true;
-                            this.modal.openModalScore();
-                        } else {
-                            window.location.reload();
-                        }
+
+                        this.game.gameOver = true;
+                        this.game.modal.updateModalContent("fin");
+                        this.game.modal.registrar_puntuacion();
+                        this.game.audio.pause();
                     }
                     break;
             }
@@ -165,6 +157,14 @@ class Pieces {
             })
         })
         this.board.limpiarFila(); // Limpia las filas completas del tablero
+
+        if (y <= 0) {
+            this.game.gameOver = true;
+            this.modal.updateModalContent("fin");
+            this.modal.registrar_puntuacion();
+            this.game.audio.pause();
+            return;
+        }
         this.currentPieces = this.getRandomPieces(); // Obtiene una nueva pieza aleatoria
     }
 

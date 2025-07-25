@@ -16,7 +16,7 @@ class Board {
         this.canvas.height = this.game.size * this.game.height
 
         // Dibuja un fondo en el lienzo
-        this.context.fillStyle = '#3f3f3f'
+        this.context.fillStyle = '#111827'
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
     }
 
@@ -29,7 +29,7 @@ class Board {
     // Dibuja el tablero en el lienzo
     draw() {
         // Dibuja un fondo en el lienzo
-        this.context.fillStyle = '#3f3f3f';
+        this.context.fillStyle = '#111827';
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
         // Calcular el tamaño de cada celda del tablero
         let convert = Math.min(this.canvas.width / this.game.width, this.canvas.height / this.game.height);
@@ -44,7 +44,7 @@ class Board {
                 }
 
                 // Dibuja el borde de cada celda
-                this.context.strokeStyle = '#000';
+                this.context.strokeStyle = '#1F2937';
                 this.context.strokeRect(x * convert, y * convert, convert, convert);
             })
         })
