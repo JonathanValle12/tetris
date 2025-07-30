@@ -78,24 +78,12 @@ export default class Game {
                     } else {
                         // Si hay colisión, suelta la pieza y maneja la situación
                         this.pieces.soltarPiece(x, y - 1);
-                        if (this.pieces.positionPiece.y === 0) {
+                        if (this.pieces.positionPiece.y <= 0) {
                             this.gameOver = true;
-                            // Si la pieza alcanza la parte superior, verifica puntuación
-                            if (!JSON.parse(localStorage.getItem('puntuacion')) || this.puntos >= JSON.parse(localStorage.getItem('puntuacion'))?.puntos) {
-
-                                this.modal.registrar_puntuacion();
-                            }
-
-                            this.modal.updateModalContent('fin');
+                            this.modal.updateModalContent("fin");
+                            this.modal.registrar_puntuacion();
                             this.audio.pause();
-                            // Reiniciar el tablero y las piezas
-                            this.board.inicialitzeBoard();
-                            this.board.draw();
-                            this.pieces.drawPiece();
-                            this.pieces.positionPiece.x = 5;
-                            this.pieces.positionPiece.y = 0;
-                        } else {
-                            this.gameOver = true;
+                            return;
                         }
                     }
                     // Restablece el temporizador

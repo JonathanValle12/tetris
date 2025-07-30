@@ -18,7 +18,6 @@ h1 {
 .contenedor {
     width: 100%;
     max-width: 1080px;
-    ;
     margin: 20px auto;
 
     main {
@@ -226,5 +225,12 @@ h1 {
 
             }
         }
+    }
+}
+
+
+@media screen and (max-width: 860px) {
+    .contenedor main {
+        flex-direction: column;
     }
 }

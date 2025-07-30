@@ -74,17 +74,18 @@ class Pieces {
                     // Rota la pieza si no hay colisión
                     if (!this.game.upKeyPress) {
                         let rotatePiece = this.currentPieces.piece[0].map((_, i) => this.currentPieces.piece.map(row => row[i]).reverse());
+
                         this.game.upKeyPress = false;
 
                         let previousPiece = this.currentPieces.piece;
-
                         this.currentPieces.piece = rotatePiece;
+
 
                         if (this.collision(pieceX, pieceY)) {
                             this.currentPieces.piece = previousPiece;
                         }
                     }
-                    break
+                    break;
                 case "ArrowDown":
                     // Mueve la pieza hacia abajo si no hay colisión
                     pieceY++
@@ -139,6 +140,10 @@ class Pieces {
             this.board.draw(); // Redibuja el tablero
             this.drawPiece(); // Dibuja la pieza actual
         }
+    }
+
+    rotateMatrix(matrix) {
+        return matrix[0].map((_, i) => matrix.map(row => row[i]).reverse());
     }
 
     // Suelta la pieza en la posición especifica
