@@ -9,12 +9,13 @@ export default class Game {
         this.width = width;
         this.height = height;
         this.size = size;
-        
+
         // Instancias de clases
         this.board = new Board(this);
         this.modal = new Modal(this);
         this.pieces = new Pieces(this, this.board, this.modal);
-        
+
+        this.isPlaying = false;
         this.paused = false; // Variable si se ha indicado si el juego esta pausado o no
         this.timer = false; // Variable para almacenar el identificador del temporizador
         this.gameOver = false;
@@ -23,29 +24,23 @@ export default class Game {
 
         // Inicialización del tablero y piezas
         this.board.canva();
-        this.board.inicialitzeBoard();
-        this.boardColors = Array.from({ length: this.height}, () => Array(this.width).fill('#2f2f2f'));
-
-        this.board.draw();
-        this.pieces.drawPiece();
+        this.boardColors = Array.from({ length: this.height }, () => Array(this.width).fill('#2f2f2f'));
 
         // Reproducción de música
         this.audio = new Audio("../song/song.mp3");
 
         this.eventsAdded = false;
+
+        this.boundMovePiece = this.pieces.movePiece.bind(this.pieces);
+        this.boundKeyDown = this.keyPressDown.bind(this);
+        this.boundKeyUp = this.keyPressUp.bind(this);
     }
 
     comenzarJuego() {
-
-        // Evento de teclado si el juego no ha terminado, no está pausado y los eventos áun no se han añadido
-        if(!this.gameOver && !this.paused && !this.eventsAdded) {
-            document.addEventListener('keydown', this.pieces.movePiece.bind(this.pieces));
-
-            this.upKeyPress = false;
-
-            document.addEventListener('keydown', this.keyPressDown.bind(this));
-            document.addEventListener('keyup', this.keyPressUp.bind(this));
-
+        if (!this.eventsAdded) {
+            document.addEventListener('keydown', this.boundMovePiece);
+            document.addEventListener('keydown', this.boundKeyDown);
+            document.addEventListener('keyup', this.boundKeyUp);
             this.eventsAdded = true;
         }
     }
@@ -58,7 +53,7 @@ export default class Game {
     // Función para manejar la tecla liberada
     keyPressUp() {
         this.upKeyPress = false;
-    } 
+    }
 
     // Función para mover automáticamente las piezas hacia abajo
     timeoutMoveDown() {
@@ -83,25 +78,12 @@ export default class Game {
                     } else {
                         // Si hay colisión, suelta la pieza y maneja la situación
                         this.pieces.soltarPiece(x, y - 1);
-                        if (this.pieces.positionPiece.y === 0) {
-                            // Si la pieza alcanza la parte superior, verifica puntuación
-                            if (!JSON.parse(localStorage.getItem('puntuacion')) || this.puntos >= JSON.parse(localStorage.getItem('puntuacion'))?.puntos) {
-                                
-                                this.gameOver = true;
-                                this.modal.openModalScore();
-                            } else {
-                                
-                            window.location.reload();
-                            }
-                            // Reiniciar el tablero y las piezas
-                            this.board.inicialitzeBoard();
-                            this.board.draw();
-                            this.pieces.drawPiece();
-                            this.pieces.positionPiece.x = 5;
-                            this.pieces.positionPiece.y = 0;
-                        } else {
+                        if (this.pieces.positionPiece.y <= 0) {
                             this.gameOver = true;
-                            this.modal.openModalScore();
+                            this.modal.updateModalContent("fin");
+                            this.modal.registrar_puntuacion();
+                            this.audio.pause();
+                            return;
                         }
                     }
                     // Restablece el temporizador
@@ -114,36 +96,74 @@ export default class Game {
             }, 1500);
         }
     }
-    
+
+    iniciarPartida() {
+        this.isPlaying = true;
+        this.paused = false;
+        this.gameOver = false;
+        this.puntos = 0;
+
+        if (this.timer) {
+            clearInterval(this.timer);
+            this.timer = false;
+        }
+
+        if (this.eventsAdded) {
+            document.removeEventListener('keydown', this.pieces.movePiece);
+            document.removeEventListener('keydown', this.keyPressDown);
+            document.removeEventListener('keyup', this.keyPressUp);
+            this.eventsAdded = false;
+        }
+
+        this.pieces.positionPiece = { x: 6, y: 0 };
+        this.pieces.currentPieces = this.pieces.getRandomPieces();
+
+        // Reset de tablero visual
+        this.boardColors = Array.from({ length: this.height }, () => Array(this.width).fill('#2f2f2f'));
+        this.board.inicialitzeBoard();
+        this.board.draw();
+        this.pieces.drawPiece();
+
+        // Ocultar menú / Mostrar botón de reiniciar
+        document.getElementById('contenedor-menu').style.display = 'none';
+        document.getElementById('reiniciar').style.display = 'inline';
+        document.getElementById("puntuacion").textContent = "0";
+
+        // Música desde el principio
+        this.audio.currentTime = 0;
+        this.audio.play();
+
+        // Eventos de teclado y caída automática
+        this.comenzarJuego();
+        this.timeoutMoveDown();
+    }
+
 }
 
 // Instanciar nuevo juego con las dimensiones y tamaño
-let juego = new Game(15, 18, 30);
+let juego = new Game(10, 20, 30);
 
 // Evento click para inciar el juego
 document.getElementById("start").addEventListener("click", () => {
 
-    juego.modal.resume(); // Resumen del juego desde el modal
-
-    juego.timeoutMoveDown(); // Comienza el movimiento automática hacia abajo de las piezas
-
-    document.getElementById("pausar").removeAttribute("disabled"); // Habilitar el boton de pausa
-
-    juego.audio.play(); // Reproducción de música
-
+    juego.iniciarPartida();
 });
 
-// Evento click para pausar el juego
-document.getElementById("pausar").addEventListener("click", () => {
-    juego.modal.pause(); // Pausar el juego desde el modal
-
-    juego.audio.pause(); // Pausa la música
+document.getElementById('reiniciar').addEventListener('click', () => {
+    juego.iniciarPartida();
 })
 
-// Agregar evento input al campo de entrada 'name'
-document.getElementById('name').addEventListener('input', () => {
-    juego.modal.registrar_puntuacion(); // Verifica la longitud del nombre en tiempo real
-});
+// Evento click para pausar el juego
+document.addEventListener("keydown", (e) => {
+
+    if (e.key.toLowerCase() === "p") {
+
+        if (juego.isPlaying && !juego.gameOver) {
+            juego.modal.updateModalContent("pausa");
+            juego.modal.pause(); // Pausar el juego desde el modal
+        }
+    }
+})
 
 if (JSON.parse(localStorage.getItem('puntuacion'))) {
     document.getElementById('record-punts').innerHTML = JSON.parse(localStorage.getItem('puntuacion')).puntos;

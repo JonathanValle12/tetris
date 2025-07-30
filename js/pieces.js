@@ -5,7 +5,7 @@ class Pieces {
         this.game = game; // Referencia al juego
         this.board = board; // Referencia al tablero
         this.modal = modal; // Referencia al modal
-        
+
         this.positionPiece = { x: 6, y: 0 }; // Posición inicial de la pieza
         this.currentPieces = this.getRandomPieces(); // Pieza actual
     }
@@ -74,17 +74,18 @@ class Pieces {
                     // Rota la pieza si no hay colisión
                     if (!this.game.upKeyPress) {
                         let rotatePiece = this.currentPieces.piece[0].map((_, i) => this.currentPieces.piece.map(row => row[i]).reverse());
+
                         this.game.upKeyPress = false;
 
                         let previousPiece = this.currentPieces.piece;
-
                         this.currentPieces.piece = rotatePiece;
+
 
                         if (this.collision(pieceX, pieceY)) {
                             this.currentPieces.piece = previousPiece;
                         }
                     }
-                    break
+                    break;
                 case "ArrowDown":
                     // Mueve la pieza hacia abajo si no hay colisión
                     pieceY++
@@ -102,12 +103,6 @@ class Pieces {
                         this.soltarPiece(pieceX, pieceY);
                         pieceX = Math.floor(Math.random() * this.game.width / 2);
                         pieceY = 0;
-
-                        if (this.collision(pieceX, pieceY)) {
-                            if (JSON.parse(localStorage.getItem('puntuacion'))) {
-                                this.modal.openModalScore();
-                            }
-                        }
                     }
 
                     break;
@@ -130,13 +125,11 @@ class Pieces {
                     }
 
                     if (newY === 0) {
-                        // Finaliza el juego si la pieza alcanza la parte superior del tablero
-                        if (!JSON.parse(localStorage.getItem('puntuacion')) || this.game.puntos >= JSON.parse(localStorage.getItem('puntuacion'))?.puntos) {
-                            this.gameOver = true;
-                            this.modal.openModalScore();
-                        } else {
-                            window.location.reload();
-                        }
+
+                        this.game.gameOver = true;
+                        this.game.modal.updateModalContent("fin");
+                        this.game.modal.registrar_puntuacion();
+                        this.game.audio.pause();
                     }
                     break;
             }
@@ -147,6 +140,10 @@ class Pieces {
             this.board.draw(); // Redibuja el tablero
             this.drawPiece(); // Dibuja la pieza actual
         }
+    }
+
+    rotateMatrix(matrix) {
+        return matrix[0].map((_, i) => matrix.map(row => row[i]).reverse());
     }
 
     // Suelta la pieza en la posición especifica
@@ -165,6 +162,14 @@ class Pieces {
             })
         })
         this.board.limpiarFila(); // Limpia las filas completas del tablero
+
+        if (y <= 0) {
+            this.game.gameOver = true;
+            this.modal.updateModalContent("fin");
+            this.modal.registrar_puntuacion();
+            this.game.audio.pause();
+            return;
+        }
         this.currentPieces = this.getRandomPieces(); // Obtiene una nueva pieza aleatoria
     }
 

@@ -1,219 +1,236 @@
-/* Estilos generales de reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Estilos del cuerpo del documento */
 body {
-    width: 100%;
-    height: 100vh;
-    background: url("../img/fondo_tetris.webp") no-repeat;
-    background-size: cover;
-    background-position: center center;
-    
-    display: grid;
-    place-items: center;
+    background-color: #030712;
     color: #fff;
 }
 
-/* Contenedor principal */
-.container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    grid-auto-flow: row;
-}
-
-/* Sección de puntuación */
-.score {
-    width: 90%;
-    border: 5px solid rgb(184, 175, 175);
-    border-radius: 10px;
-    background: linear-gradient(#333333, #b5b5b5);
-    height: 150px;
-    position: relative;
-    top: 10px;
-}
-.score h2 {
-    width: 100%;
-    padding: 5px 35px;
-}
-.score p {
-    width: 100%;
-    border: none;
-    background-color: rgb(61, 58, 58);
-    border-radius: 5px;
+h1 {
     text-align: center;
-    padding: 5px 0;
-    font-weight: bold;
-}
-.record {
-    position: absolute;
-    top: -20px;
-    border-radius: 10px;
-}
-.record p {
-    padding: 5px 10px;
-    background: linear-gradient(#ffd700, #837210);
-}
-.icon-record {
-    position: absolute;
-    color: #ffd700;
-    top: -5px;
-    right: -18px;
-}
-.pausar {
-    border: 1px solid #000;
-    padding: 10px 20px;
-    border-radius: 6px;
-    background-color: rgb(48, 48, 48);
-    color: #fff;
-
-    cursor: pointer;
-    position: absolute;
-    right: 30px;
-    top: 30px;
-}
-.pausar i {
-    font-size: 35px;
+    font-size: 5rem;
+    margin-top: 50px;
 }
 
-/* Modal de pausa */
-.modal-game {
-    background-color: rgba(0, 0, 0, 0.8);
-    position: fixed;
-    top: 0;
-    left: 0;
+.contenedor {
     width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-}
-.modal-game-dentro {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    max-width: 400px;
-    width: 100%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-.modal-game h2 {
-    font-size: 24px;
-    text-transform: uppercase;
-    font-weight: bold;
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-}
-.modal-game .actions {
-    display: flex;
-    justify-content: center;
-}
-.modal-game .actions button {
-    padding: 10px 20px;
-    margin: 0 10px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-.modal-game .actions button:hover {
-    background-color: #0056b3;
-}
+    max-width: 1080px;
+    margin: 20px auto;
 
-/* Modal de puntuación */
-.modal-score {
-    width: 33%;
-    position: absolute;
-    background-color: #fff;
-    color: #000;
-    border-radius: 10px;
-    padding: 20px 30px;
-    top: 50px;
-    left: 50px;
-    display: none;
-}
-.modal-score .tu_puntuacion {
-    display: flex;
-    align-items: center;
-    gap: 35px;
-    margin-bottom: 30px;
-}
-.tu_puntuacion p {
-    background-color:#ffd700;
-    border-radius: 5px;
-    padding: 5px;
-}
-.modal-score section input[type="text"] {
-    padding: 10px;
-    outline: none;
-    width: 100%;
-    margin-bottom: 25px;
-}
-.modal-score footer {
-    display: flex;
-    justify-content: flex-end;
-}
-.modal-score footer button {
-    padding: 10px;
-    border: none;
-    background: #ccc;
-    color: #fff;
-    border-radius: 5px;
-}
-.modal-score footer .button_save {
-    background: #000;
-    cursor: pointer;
-    transition: transform .5s;
-}
-
-.modal-score footer .button_save:hover {
-    transform: scale(1.15);
-}
-
-/* Estilos responsivos */
-@media screen and (max-width: 1200px) {
-    .container {
-        display: flex;
-        justify-content: flex-end;
-        gap: 20px;
-    }
-}
-@media screen and (max-width: 800px) {
-    .container {
-        display: flex;
-        flex-direction: column;
-        margin-top: 100px;
-    }
-    .score .container-score {
-        width: 100%;
-        height: 100%;
+    main {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        padding-top: 20px;
-        padding-left: 10px;
+        margin: 0 20px;
+        gap: 20px;
+
+        section {
+            width: 100%;
+            padding: 5px 10px;
+            text-align: center;
+            background-color: #111827;
+
+            h2 {
+                font-size: 2rem;
+                margin-top: 20px;
+            }
+        }
+
+        /* Controles */
+        .controles {
+            .teclas-direccion {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 1.5rem;
+                gap: 0.5rem;
+
+                .fila-01,
+                .fila-02 {
+                    display: flex;
+                    gap: 0.5rem;
+
+                    kbd {
+                        background-color: #1F2937;
+                        padding: 0.8rem 1rem;
+                        border-radius: 0.5rem;
+                        font-size: 1.3rem;
+                        border: 1px solid #313131;
+
+                        cursor: pointer;
+
+                        &:hover {
+                            background-color: #374151;
+                            color: #000;
+                        }
+                    }
+                }
+            }
+
+            .tecla-accion {
+                background-color: #1F2937;
+                border: 1px solid #313131;
+                padding: 0.7rem;
+                border-radius: 0.5rem;
+                font-size: 1.2rem;
+                font-weight: bold;
+                margin: 1rem 0;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #374151;
+                    color: #000;
+                }
+            }
+
+            p {
+                color: #747B7F;
+                font-size: 0.9rem;
+
+                kbd {
+                    color: #fff;
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .game-info-panel {
+
+            .pieza-siguiente,
+            .puntuacion {
+                margin-bottom: 20px;
+
+                span {
+                    font-size: 2rem;
+                    font-weight: bold;
+                }
+            }
+
+            .contenedor-pieza {
+                display: grid;
+                grid-template-columns: repeat(4, 16px);
+                grid-template-rows: repeat(4, 16px);
+                gap: 3px;
+                justify-content: center;
+                padding: 10px;
+                margin-top: 10px;
+
+                .cell {
+                    width: 20px;
+                    height: 20px;
+                    background-color: #111827;
+                    border: 1px solid #333;
+
+                    &.active {
+                        background-color: #9CA3AF;
+                    }
+                }
+            }
+
+            .puntuacion {
+                margin-top: 35px;
+
+                .puntos-actual {
+                    display: inline-block;
+                    width: 100%;
+                    padding: 15px 0;
+                    background-color: #030712;
+                    margin-top: 15px;
+                }
+
+                p {
+                    margin-top: 25px;
+                    color: #d1d5db;
+
+                    span {
+                        font-size: 20px;
+                        color: #fff;
+                    }
+                }
+            }
+
+            button {
+                display: none;
+                width: 100%;
+                color: #fff;
+                background-color: #374151;
+                padding: 15px 0;
+                border: none;
+                border-radius: 5px;
+                font-size: 1rem;
+                cursor: pointer;
+                margin-top: 150px;
+
+                &:hover {
+                    background-color: #4c5563;
+                }
+
+                &:nth-of-type(2) {
+                    opacity: 0.5;
+                    cursor: auto;
+                }
+            }
+        }
+
+        .canvas {
+            position: relative;
+
+            canvas {
+                border: 1px solid #374151;
+            }
+
+            .contenedor-menu {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+
+                background-color: #111827;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                line-height: 40px;
+
+                opacity: 0.95;
+
+                h2 {
+                    width: 100%;
+                    font-size: 35px;
+                    text-transform: uppercase;
+                }
+
+                button {
+                    background-color: #374151;
+                    color: #fff;
+                    border: none;
+                    width: 60%;
+                    height: 50px;
+                    border-radius: 5px;
+                    font-weight: bold;
+                    font-size: 16px;
+                    cursor: pointer;
+                    margin-top: 15px;
+
+                    &:hover {
+                        background-color: #4c5563;
+                    }
+                }
+
+            }
+        }
     }
-    .score {
-        width: 100%;
-        height: 100%;
-        margin: auto;
-        display: flex;
-        border-bottom-left-radius: 0px;
-        border-bottom-right-radius: 0px;
-    }
-    .score h2 {
-        padding: 0;
-    }
-    .score p {
-        background-color: transparent !important;
-        border: 1px solid #ccc;
-        
+}
+
+
+@media screen and (max-width: 860px) {
+    .contenedor main {
+        flex-direction: column;
     }
 }

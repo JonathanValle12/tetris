@@ -11,60 +11,82 @@
 </head>
 
 <body>
-    <!-- Contenido principal -->
-    <main class="container">
 
-        <!-- Sección de puntuación -->
-        <section class="score">
-            <div class="container-score">
-                <h2>Score</h2>
-                <p id="puntuacion">0</p>
-            </div>
-            <div class="record">
-                <p id="record-punts">?</p>
-                <div class="icon-record">
+    <header>
+        <h1>Tetris</h1>
+    </header>
 
-                    <i class="fa fa-trophy"></i>
+    <div class="contenedor">
+        <main>
+
+            <!-- Controles -->
+            <section class="controles">
+                <h2>Controles</h2>
+                <div class="teclas-direccion">
+                    <div class="fila-01">
+                        <kbd aria-label="Flecha arriba">↑</kbd>
+                    </div>
+                    <div class="fila-02">
+                        <kbd aria-label="Flecha izquierda">←</kbd>
+                        <kbd aria-label="Flecha abajo">↓</kbd>
+                        <kbd aria-label="Flecha derecha">→</kbd>
+                    </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- Lienzo para el juego -->
-        <section class="canvas">
-            <canvas></canvas>
-        </section>
-
-        <!-- Modal de pausa -->
-        <section class="modal-game" id="modal-game">
-            <div class="modal-game-dentro">
-                <h2>Paused</h2>
-                <div class="actions">
-                    <button id="start">Start</button>
+                <div class="tecla-accion">
+                    <kbd aria-label="Tecla espacio">Espacio</kbd>
                 </div>
-            </div>
-        </section>
 
-        <!-- Botón de pausa -->
-        <section>
-            <button class="pausar" id="pausar"><i class="fa fa-pause"></i></button>
-        </section>
-
-        <!-- Modal de puntuación -->
-        <section class="modal-score" id="modal-score">
-            <header class="tu_puntuacion">
-                <h2>Puntuación</h2>
-                <p id="ver_puntuacion">0</p>
-            </header>
-            <section>
-                <input type="text" id="name" name="name" placeholder="Escribe tu nombre a guardar" />
+                <p>Presiona <kbd id="pausar">P</kbd> para pausar el juego.</p>
             </section>
-            <footer>
-                <button id="registrar_save">Registrar</button>
-            </footer>
-        </section>
-    </main>
+
+            <!-- Juego -->
+            <section class="canvas">
+                <canvas></canvas>
+
+                <div class="contenedor-menu" id="contenedor-menu">
+                    <h2 id="menu-titulo">Tetris</h2>
+                    <p id="menu-mensaje">Presiona "Comenzar Juego"</p>
+                    <button id="start">Comenzar Juego</button>
+                </div>
+            </section>
+
+            <!-- Estadistica -->
+            <section class="game-info-panel">
+                <div class="pieza-siguiente">
+                    <h2>Siguiente Pieza</h2>
+                    <div class="contenedor-pieza" id="contenedorPieza"></div>
+                </div>
+                <div class="puntuacion">
+                    <h2>Puntuacion</h2>
+                    <span class="puntos-actual" id="puntuacion">0</span>
+
+                    <p>Mejor Puntuacion: <span class="score" id="record-punts"></span></p>
+                </div>
+
+                <button id="reiniciar">Reiniciar</button>
+            </section>
+        </main>
+    </div>
 
     <script type="module" src="js/game.js"></script>
+
+    <script>
+        const grid = [
+            [0, 0, 0, 0],
+            [0, 1, 1, 0],
+            [0, 1, 1, 0],
+            [0, 0, 0, 0],
+        ];
+
+        const contenedor = document.getElementById("contenedorPieza");
+
+        grid.flat().forEach(value => {
+            const div = document.createElement("div");
+            div.className = "cell" + (value ? " active" : "");
+            contenedor.appendChild(div);
+        });
+    </script>
 </body>
 
 </html>
